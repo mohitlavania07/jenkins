@@ -18,5 +18,18 @@ pipeline {
                 """
             }
         }
+
+        stage("Push to Dockerhub") {
+            steps {
+                echo "Pushing the image to Docker Hub..."
+                withCredentials([usernamePassword(credentialsId: "docker-cred", passwordVariable: 'dockerPass', usernameVariable: 'dockerUser')]) {
+                    sh """
+                        docker login -u ${dockerUser} -p ${dockerPass}
+                        docker image tag wanderlust-ci-cd_frontend ${dockerUser}/wanderlust
+                        docker push ${dockerUser}/wanderlust
+                    """
+                }
+            }
+        }
     }
 }
