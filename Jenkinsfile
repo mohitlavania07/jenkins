@@ -13,7 +13,6 @@ pipeline {
             steps {
                 echo "Deploying using Docker Compose..."
                 sh """
-                    # Ensure the Jenkins user has permissions for Docker
                     docker-compose down || true
                     docker-compose up -d --build
                 """
